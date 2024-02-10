@@ -3,15 +3,11 @@ package com.example.transportation_service.http.rest;
 import com.example.transportation_service.dto.PersonalTicketDto;
 import com.example.transportation_service.dto.TicketFilter;
 import com.example.transportation_service.dto.UserCreateDto;
-import com.example.transportation_service.dto.UserReadDto;
 import com.example.transportation_service.service.TransportationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -28,20 +24,21 @@ public class TransportationRestController {
     }
 
     @GetMapping("/tickets")
-    public Page<PersonalTicketDto> findAll(@RequestParam("offset") Integer offset,
+    public List<PersonalTicketDto> findAll(@RequestParam("offset") Integer offset,
                                            @RequestParam("limit") Integer limit,
                                            @RequestBody TicketFilter filter) {
-        return null;
+
+        return transportationService.findAll(offset, limit, filter);
     }
 
-    @GetMapping("/{id}/tickets")
-    public List<PersonalTicketDto> findAllByTicketsById(@PathVariable Long id) {
-        return null;
-    }
-
-    @PutMapping("/buy/{id}")
+    @PutMapping("/{id}/buy")
     @ResponseStatus(HttpStatus.OK)
-    public PersonalTicketDto byuTicket(@PathVariable Long id) {
-        return null;
+    public int byuTicket(@PathVariable("id") Long id, @RequestParam("full_name") String fullName) {
+        return transportationService.buyTicket(id, fullName);
+    }
+
+    @GetMapping("/buyTickets")
+    public List<PersonalTicketDto> findAllByTicketsByFullName(@RequestParam("full_name") String fullName) {
+        return transportationService.findAllByTicketsByFullName(fullName);
     }
 }
