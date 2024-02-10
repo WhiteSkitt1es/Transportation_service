@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users
     full_name VARCHAR(128),
     username VARCHAR(64)  NOT NULL UNIQUE,
     password VARCHAR(128) NOT NULL,
-    role     VARCHAR(64)
+    role     VARCHAR(64) DEFAULT 'USER'
 );
 
 DROP TABLE IF EXISTS carriers;
