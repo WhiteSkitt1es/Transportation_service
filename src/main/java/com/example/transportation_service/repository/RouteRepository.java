@@ -2,6 +2,7 @@ package com.example.transportation_service.repository;
 
 import com.example.transportation_service.dto.RouteDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,29 +34,29 @@ public class RouteRepository {
 
     @Transactional
     public void createRoute(RouteDto routeDto) {
-        Map<String, String> param = Map.of(
-                "departurePoint", routeDto.getDeparturePoint(),
-                "destinationPoints", routeDto.getDestinationPoint(),
-                "idCarrier", routeDto.getIdCarrier().toString()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("departurePoint", routeDto.getDeparturePoint())
+                .addValue("destinationPoints", routeDto.getDestinationPoint())
+                .addValue("idCarrier", routeDto.getIdCarrier());
+
         jdbcTemplate.update(CREATE_ROUTE, param);
     }
 
     @Transactional
     public int updateRoute(Long id, RouteDto routeDto) {
-        Map<String, String> param = Map.of(
-                "id", id.toString(),
-                "departurePoint", routeDto.getDeparturePoint(),
-                "destinationPoints", routeDto.getDestinationPoint(),
-                "idCarrier", routeDto.getIdCarrier().toString()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("departurePoint", routeDto.getDeparturePoint())
+                .addValue("destinationPoints", routeDto.getDestinationPoint())
+                .addValue("idCarrier", routeDto.getIdCarrier());
+
         return jdbcTemplate.update(UPDATE_ROUTE, param);
     }
     @Transactional
     public int deleteRoute(Long id) {
-        Map<String, String> param = Map.of(
-                "id", id.toString()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", id);
+
         return jdbcTemplate.update(DELETE_ROUTE, param);
     }
 }

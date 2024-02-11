@@ -4,6 +4,7 @@ import com.example.transportation_service.dto.PersonalTicketDto;
 import com.example.transportation_service.dto.TicketDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,33 +72,32 @@ public class TicketRepository {
 
     @Transactional
     public void createTicket(TicketDto ticketDto) {
-        Map<String, String> param = Map.of(
-                "seatNumber", ticketDto.getSeatNumber().toString(),
-                "time", ticketDto.getTime().toString(),
-                "price", ticketDto.getPrice().toString(),
-                "routesId", ticketDto.getRoutesId().toString()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("seatNumber", ticketDto.getSeatNumber())
+                .addValue("time", ticketDto.getTime())
+                .addValue("price", ticketDto.getPrice())
+                .addValue("routesId", ticketDto.getRoutesId());
+
         namedParameterJdbcTemplate.update(CREATE_TICKET, param);
     }
 
     @Transactional
     public int updateTicket(Long id, TicketDto ticketDto) {
-        Map<String, String> param = Map.of(
-                "id", id.toString(),
-                "seatNumber", ticketDto.getSeatNumber().toString(),
-                "time", ticketDto.getTime().toString(),
-                "price", ticketDto.getPrice().toString(),
-                "routesId", ticketDto.getRoutesId().toString()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("seatNumber", ticketDto.getSeatNumber())
+                .addValue("time", ticketDto.getTime())
+                .addValue("price", ticketDto.getPrice())
+                .addValue("routesId", ticketDto.getRoutesId());
 
         return namedParameterJdbcTemplate.update(UPDATE_TICKET, param);
     }
 
     @Transactional
     public int deleteTicket(Long id) {
-        Map<String, String> param = Map.of(
-                "id", id.toString()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", id);
+
         return namedParameterJdbcTemplate.update(DELETE_TICKET, param);
     }
 }

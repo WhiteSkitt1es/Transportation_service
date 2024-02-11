@@ -2,6 +2,7 @@ package com.example.transportation_service.repository;
 
 import com.example.transportation_service.dto.CarrierDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,28 +35,28 @@ public class CarrierRepository {
 
     @Transactional
     public void createCarrier(CarrierDto carrierDto) {
-        Map<String, String> param = Map.of(
-                "name", carrierDto.getName(),
-                "phoneNumber", carrierDto.getTelephoneNumber()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("name", carrierDto.getName())
+                .addValue("phoneNumber",carrierDto.getTelephoneNumber());
+
         jdbcTemplate.update(CREATE_CARRIER, param);
     }
 
     @Transactional
     public int updateCarrier(Long id, CarrierDto carrierDto) {
-        Map<String, String> param = Map.of(
-                "id", id.toString(),
-                "name", carrierDto.getName(),
-                "phoneNumber", carrierDto.getTelephoneNumber()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("name", carrierDto.getName())
+                .addValue("phoneNumber", carrierDto.getTelephoneNumber());
+
         return jdbcTemplate.update(UPDATE_CARRIER, param);
     }
 
     @Transactional
     public int deleteCarrier(Long id) {
-        Map<String, String> param = Map.of(
-                "id", id.toString()
-        );
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", id);
+
         return jdbcTemplate.update(DELETE_CARRIER,param);
     }
 }
