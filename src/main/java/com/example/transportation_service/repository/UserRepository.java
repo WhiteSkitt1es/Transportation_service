@@ -30,14 +30,14 @@ public class UserRepository {
             """;
 
     @Transactional
-    public int registrationUser(UserCreateDto user) {
+    public void registrationUser(UserCreateDto user) {
         Map<String, String> arguments = Map.of(
                 "fullName", user.getFullName(),
                 "username", user.getUsername(),
                 "password", user.getPassword(),
                 "role", user.getRole().toString()
         );
-        return jdbcTemplate.update(ADD_USER, arguments);
+        jdbcTemplate.update(ADD_USER, arguments);
     }
 
     @Transactional

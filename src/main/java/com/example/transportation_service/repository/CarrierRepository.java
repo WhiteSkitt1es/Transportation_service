@@ -1,6 +1,6 @@
 package com.example.transportation_service.repository;
 
-import com.example.transportation_service.dto.CarrierCreateDto;
+import com.example.transportation_service.dto.CarrierDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -33,26 +33,26 @@ public class CarrierRepository {
             """;
 
     @Transactional
-    public int createCarrier(CarrierCreateDto carrierCreateDto) {
+    public void createCarrier(CarrierDto carrierDto) {
         Map<String, String> param = Map.of(
-                "name", carrierCreateDto.getName(),
-                "phoneNumber", carrierCreateDto.getTelephoneNumber()
+                "name", carrierDto.getName(),
+                "phoneNumber", carrierDto.getTelephoneNumber()
         );
-        return jdbcTemplate.update(CREATE_CARRIER, param);
+        jdbcTemplate.update(CREATE_CARRIER, param);
     }
 
     @Transactional
-    public int updateCarrier(Long id, CarrierCreateDto carrierCreateDto) {
+    public int updateCarrier(Long id, CarrierDto carrierDto) {
         Map<String, String> param = Map.of(
                 "id", id.toString(),
-                "name", carrierCreateDto.getName(),
-                "phoneNumber", carrierCreateDto.getTelephoneNumber()
+                "name", carrierDto.getName(),
+                "phoneNumber", carrierDto.getTelephoneNumber()
         );
         return jdbcTemplate.update(UPDATE_CARRIER, param);
     }
 
     @Transactional
-    public int deleteCurrier(Long id) {
+    public int deleteCarrier(Long id) {
         Map<String, String> param = Map.of(
                 "id", id.toString()
         );

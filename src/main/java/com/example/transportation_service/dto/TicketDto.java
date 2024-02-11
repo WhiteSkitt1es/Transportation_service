@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Value
-public class TicketCreateDto {
+public class TicketDto {
 
     @JsonProperty("seat_number")
     Integer seatNumber;

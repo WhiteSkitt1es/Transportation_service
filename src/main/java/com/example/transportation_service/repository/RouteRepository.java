@@ -1,6 +1,6 @@
 package com.example.transportation_service.repository;
 
-import com.example.transportation_service.dto.RouteCreateDto;
+import com.example.transportation_service.dto.RouteDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,22 +32,22 @@ public class RouteRepository {
             """;
 
     @Transactional
-    public int createRoute(RouteCreateDto routeCreateDto) {
+    public void createRoute(RouteDto routeDto) {
         Map<String, String> param = Map.of(
-                "departurePoint", routeCreateDto.getDeparturePoint(),
-                "destinationPoints", routeCreateDto.getDestinationPoint(),
-                "idCarrier", routeCreateDto.getIdCarrier().toString()
+                "departurePoint", routeDto.getDeparturePoint(),
+                "destinationPoints", routeDto.getDestinationPoint(),
+                "idCarrier", routeDto.getIdCarrier().toString()
         );
-        return jdbcTemplate.update(CREATE_ROUTE, param);
+        jdbcTemplate.update(CREATE_ROUTE, param);
     }
 
     @Transactional
-    public int updateRoute(Long id, RouteCreateDto routeCreateDto) {
+    public int updateRoute(Long id, RouteDto routeDto) {
         Map<String, String> param = Map.of(
                 "id", id.toString(),
-                "departurePoint", routeCreateDto.getDeparturePoint(),
-                "destinationPoints", routeCreateDto.getDestinationPoint(),
-                "idCarrier", routeCreateDto.getIdCarrier().toString()
+                "departurePoint", routeDto.getDeparturePoint(),
+                "destinationPoints", routeDto.getDestinationPoint(),
+                "idCarrier", routeDto.getIdCarrier().toString()
         );
         return jdbcTemplate.update(UPDATE_ROUTE, param);
     }

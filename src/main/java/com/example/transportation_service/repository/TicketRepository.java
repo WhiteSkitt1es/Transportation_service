@@ -1,7 +1,7 @@
 package com.example.transportation_service.repository;
 
 import com.example.transportation_service.dto.PersonalTicketDto;
-import com.example.transportation_service.dto.TicketCreateDto;
+import com.example.transportation_service.dto.TicketDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -70,24 +70,24 @@ public class TicketRepository {
     }
 
     @Transactional
-    public int createTicket(TicketCreateDto ticketCreateDto) {
+    public void createTicket(TicketDto ticketDto) {
         Map<String, String> param = Map.of(
-                "seatNumber", ticketCreateDto.getSeatNumber().toString(),
-                "time", ticketCreateDto.getTime().toString(),
-                "price", ticketCreateDto.getPrice().toString(),
-                "routesId", ticketCreateDto.getRoutesId().toString()
+                "seatNumber", ticketDto.getSeatNumber().toString(),
+                "time", ticketDto.getTime().toString(),
+                "price", ticketDto.getPrice().toString(),
+                "routesId", ticketDto.getRoutesId().toString()
         );
-        return namedParameterJdbcTemplate.update(CREATE_TICKET, param);
+        namedParameterJdbcTemplate.update(CREATE_TICKET, param);
     }
 
     @Transactional
-    public int updateTicket(Long id, TicketCreateDto ticketCreateDto) {
+    public int updateTicket(Long id, TicketDto ticketDto) {
         Map<String, String> param = Map.of(
                 "id", id.toString(),
-                "seatNumber", ticketCreateDto.getSeatNumber().toString(),
-                "time", ticketCreateDto.getTime().toString(),
-                "price", ticketCreateDto.getPrice().toString(),
-                "routesId", ticketCreateDto.getRoutesId().toString()
+                "seatNumber", ticketDto.getSeatNumber().toString(),
+                "time", ticketDto.getTime().toString(),
+                "price", ticketDto.getPrice().toString(),
+                "routesId", ticketDto.getRoutesId().toString()
         );
 
         return namedParameterJdbcTemplate.update(UPDATE_TICKET, param);

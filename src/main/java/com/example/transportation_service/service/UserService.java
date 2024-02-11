@@ -1,5 +1,6 @@
 package com.example.transportation_service.service;
 
+import com.example.transportation_service.dto.UserCreateDto;
 import com.example.transportation_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -15,6 +16,10 @@ import java.util.Collections;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+
+    public void createUser(UserCreateDto userCreateDto) {
+        userRepository.registrationUser(userCreateDto);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,7 +1,10 @@
 package com.example.transportation_service.http.rest;
 
 import com.example.transportation_service.dto.*;
-import com.example.transportation_service.service.TransportationService;
+import com.example.transportation_service.service.CarrierService;
+import com.example.transportation_service.service.RouteService;
+import com.example.transportation_service.service.TicketService;
+import com.example.transportation_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +18,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransportationRestController {
 
-    private final TransportationService transportationService;
+    private final UserService userService;
+    private final TicketService ticketService;
+    private final RouteService routeService;
+    private final CarrierService carrierService;
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody @Validated UserCreateDto user) {
-         transportationService.createUser(user);
+        userService.createUser(user);
     }
 
     @GetMapping("/tickets")
@@ -28,69 +34,79 @@ public class TransportationRestController {
                                            @RequestParam("limit") Integer limit,
                                            @RequestBody TicketFilter filter) {
 
-        return transportationService.findAll(offset, limit, filter);
+        return ticketService.findAll(offset, limit, filter);
     }
 
     @PutMapping("/{id}/buy")
-    @ResponseStatus(HttpStatus.OK)
-    public void byuTicket(@PathVariable("id") Long id, @RequestParam("full_name") String fullName) {
-        transportationService.buyTicket(id, fullName);
+    public ResponseEntity<?> byuTicket(@PathVariable("id") Long id, @RequestParam("full_name") String fullName) {
+        return ticketService.buyTicket(id, fullName)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/buyTickets")
     public List<PersonalTicketDto> findAllByTicketsByFullName(@RequestParam("full_name") String fullName) {
-        return transportationService.findAllByTicketsByFullName(fullName);
+        return ticketService.findAllByTicketsByFullName(fullName);
     }
 
     @PostMapping("/admin/carriers/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCarrier(@RequestBody CarrierCreateDto carrierCreateDto) {
-
+    public void createCarrier(@RequestBody CarrierDto carrierDto) {
+        carrierService.createCarrier(carrierDto);
     }
 
     @PutMapping("/admin/carriers/update/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateCarrier(@PathVariable Long id, @RequestBody CarrierCreateDto carrierCreateDto) {
-
+    public ResponseEntity<?> updateCarrier(@PathVariable Long id, @RequestBody CarrierDto carrierDto) {
+        return carrierService.updateCarrier(id,carrierDto)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/admin/carriers/delete/{id}")
     public ResponseEntity<?> deleteCarrier(@PathVariable Long id) {
-        return ResponseEntity.notFound().build();
+        return carrierService.deleteCarrier(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/admin/routes/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRoute(@RequestBody RouteCreateDto routeCreateDto) {
-
+    public void createRoute(@RequestBody RouteDto routeDto) {
+        routeService.createRoute(routeDto);
     }
 
     @PutMapping("/admin/routes/update/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateRoute(@PathVariable Long id, @RequestBody RouteCreateDto routeCreateDto) {
-
+    public ResponseEntity<?> updateRoute(@PathVariable Long id, @RequestBody RouteDto routeDto) {
+        return routeService.updateRoute(id, routeDto)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/admin/routes/delete/{id}")
     public ResponseEntity<?> deleteRoutes(@PathVariable Long id) {
-        return ResponseEntity.notFound().build();
+        return routeService.deleteRoute(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/admin/ticket/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTicket(@RequestBody TicketCreateDto ticketCreateDto) {
-
+    public void createTicket(@RequestBody TicketDto ticketDto) {
+        ticketService.createTicket(ticketDto);
     }
 
     @PutMapping("/admin/ticket/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateTicket(@PathVariable Long id, @RequestBody TicketCreateDto ticketCreateDto) {
-
+    public ResponseEntity<?> updateTicket(@PathVariable Long id, @RequestBody TicketDto ticketDto) {
+        return ticketService.updateTicket(id, ticketDto)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/admin/ticket/delete/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
-        return ResponseEntity.notFound().build();
+        return ticketService.deleteTicket(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
-
 }
