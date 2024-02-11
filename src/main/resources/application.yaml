@@ -4,4 +4,17 @@ spring:
     password: postgres
     url: jdbc:postgresql://localhost:5436/postgres
     driver-class-name: org.postgresql.Driver
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 429053955284-io3l0cdh83mghcnnvnsu1mt5uubhql84.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://localhost:8080/swagger-ui/oauth2-redirect.html
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: 429053955284-io3l0cdh83mghcnnvnsu1mt5uubhql84.apps.googleusercontent.com
+      client-secret: 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
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html

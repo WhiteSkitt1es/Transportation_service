@@ -4,9 +4,9 @@ import com.example.transportation_service.dto.PersonalTicketDto;
 import com.example.transportation_service.dto.TicketFilter;
 import com.example.transportation_service.dto.UserCreateDto;
 import com.example.transportation_service.service.TransportationService;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
