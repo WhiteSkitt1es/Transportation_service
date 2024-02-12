@@ -33,8 +33,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasAnyRole(ADMIN.getAuthority())
-                        .anyRequest().authenticated())
+                        /*.requestMatchers("/admin/**").hasAnyRole(ADMIN.getAuthority())
+                        .anyRequest().authenticated()*/
+                        .anyRequest().permitAll()
+                )
                 .oauth2Login(config -> config
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .oidcUserService(oidUserService())));

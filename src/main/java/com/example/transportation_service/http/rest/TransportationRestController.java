@@ -49,40 +49,40 @@ public class TransportationRestController {
         return ticketService.findAllByTicketsByFullName(fullName);
     }
 
-    @PostMapping("/admin/carriers/create")
+    @PostMapping("/admin/carrier/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createCarrier(@RequestBody CarrierDto carrierDto) {
         carrierService.createCarrier(carrierDto);
     }
 
-    @PutMapping("/admin/carriers/update/{id}")
+    @PutMapping("/admin/carrier/update/{id}")
     public ResponseEntity<?> updateCarrier(@PathVariable Long id, @RequestBody CarrierDto carrierDto) {
         return carrierService.updateCarrier(id,carrierDto)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/admin/carriers/delete/{id}")
+    @DeleteMapping("/admin/carrier/delete/{id}")
     public ResponseEntity<?> deleteCarrier(@PathVariable Long id) {
         return carrierService.deleteCarrier(id)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/admin/routes/create")
+    @PostMapping("/admin/route/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRoute(@RequestBody RouteDto routeDto) {
         routeService.createRoute(routeDto);
     }
 
-    @PutMapping("/admin/routes/update/{id}")
+    @PutMapping("/admin/route/update/{id}")
     public ResponseEntity<?> updateRoute(@PathVariable Long id, @RequestBody RouteDto routeDto) {
         return routeService.updateRoute(id, routeDto)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/admin/routes/delete/{id}")
+    @DeleteMapping("/admin/route/delete/{id}")
     public ResponseEntity<?> deleteRoutes(@PathVariable Long id) {
         return routeService.deleteRoute(id)
                 ? ResponseEntity.noContent().build()
@@ -97,7 +97,7 @@ public class TransportationRestController {
 
     @PutMapping("/admin/ticket/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateTicket(@PathVariable Long id, @RequestBody TicketDto ticketDto) {
+    public ResponseEntity<?> updateTicket(@PathVariable Long id, @RequestBody @Validated TicketDto ticketDto) {
         return ticketService.updateTicket(id, ticketDto)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();

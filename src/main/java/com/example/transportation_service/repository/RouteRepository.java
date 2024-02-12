@@ -36,7 +36,7 @@ public class RouteRepository {
     public void createRoute(RouteDto routeDto) {
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("departurePoint", routeDto.getDeparturePoint())
-                .addValue("destinationPoints", routeDto.getDestinationPoint())
+                .addValue("destinationPoint", routeDto.getDestinationPoint())
                 .addValue("idCarrier", routeDto.getIdCarrier());
 
         jdbcTemplate.update(CREATE_ROUTE, param);
@@ -47,7 +47,7 @@ public class RouteRepository {
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", id)
                 .addValue("departurePoint", routeDto.getDeparturePoint())
-                .addValue("destinationPoints", routeDto.getDestinationPoint())
+                .addValue("destinationPoint", routeDto.getDestinationPoint())
                 .addValue("idCarrier", routeDto.getIdCarrier());
 
         return jdbcTemplate.update(UPDATE_ROUTE, param);
