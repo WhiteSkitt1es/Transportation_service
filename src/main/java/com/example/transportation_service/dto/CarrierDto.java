@@ -6,8 +6,6 @@ import lombok.Value;
 @Value
 public class CarrierDto {
 
-    Long id;
-
     String name;
 
     @JsonProperty("telephone_number")

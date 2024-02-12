@@ -15,7 +15,7 @@ public class UserMapper implements RowMapper<Users> {
         String fullName = rs.getString("full_name");
         String username = rs.getString("username");
         String password = rs.getString("password");
-        Role role = rs.getObject("role", Role.class);
+        Role role = Role.valueOf(rs.getString("role"));
 
         return new Users(fullName, username, password, role);
     }

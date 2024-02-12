@@ -4,6 +4,7 @@ import com.example.transportation_service.dto.UserCreateDto;
 import com.example.transportation_service.dto.Users;
 import com.example.transportation_service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,10 +43,10 @@ public class UserRepository {
 
     @Transactional
     public Optional<Users> findUserByUsername(String username) {
-       Map<String, String> params = new HashMap<>();
-       params.put("username", username);
+        MapSqlParameterSource param = new MapSqlParameterSource()
+                .addValue("username", username);
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_USERNAME, params, new UserMapper()));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_USERNAME, param, new UserMapper()));
     }
 
 }

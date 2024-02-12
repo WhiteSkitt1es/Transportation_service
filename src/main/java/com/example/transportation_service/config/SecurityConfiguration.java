@@ -1,11 +1,12 @@
 package com.example.transportation_service.config;
 
+import com.example.transportation_service.dto.Role;
 import com.example.transportation_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -19,8 +20,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Set;
 
+import static com.example.transportation_service.dto.Role.*;
+
 @Configuration
-@EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -30,13 +33,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth -> auth
-                        /*.requestMatchers(
-                                "/api/v1/user/create",
-                                "/api/v1/user/tickets",
-                                "/api/v1/user/buyTickets",
-                                "/api/v1/user/{id:\\d+}/buy")
-                        .authenticated()*/
-                        .anyRequest().permitAll())
+                        .requestMatchers("/admin/**").hasAnyRole(ADMIN.getAuthority())
+                        .anyRequest().authenticated())
                 .oauth2Login(config -> config
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .oidcUserService(oidUserService())));

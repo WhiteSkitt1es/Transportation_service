@@ -11,7 +11,7 @@ spring:
           google:
             clientId: 429053955284-io3l0cdh83mghcnnvnsu1mt5uubhql84.apps.googleusercontent.com
             clientSecret: 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
-            redirectUri: http://localhost:8080/swagger-ui/oauth2-redirect.html
+            redirectUri: http://localhost:8080/login/oauth2/code/google
 springdoc:
   swagger-ui:
     oauth:
