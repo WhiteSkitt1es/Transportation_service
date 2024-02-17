@@ -41,12 +41,10 @@ public class UserRepository {
         jdbcTemplate.update(ADD_USER, arguments);
     }
 
-    @Transactional
     public Optional<Users> findUserByUsername(String username) {
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("username", username);
 
         return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_USER_BY_USERNAME, param, new UserMapper()));
     }
-
 }

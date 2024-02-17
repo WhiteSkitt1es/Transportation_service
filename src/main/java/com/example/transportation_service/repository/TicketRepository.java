@@ -53,7 +53,6 @@ public class TicketRepository {
             WHERE id = :id
             """;
 
-    @Transactional
     public List<PersonalTicketDto> findAllTicketsByFullName (String fullName) {
         return jdbcTemplate.query(FIND_ALL_TICKETS_BY_FULL_NAME, (rs, rowNum) -> new PersonalTicketDto(
                 rs.getInt("seat_number"),

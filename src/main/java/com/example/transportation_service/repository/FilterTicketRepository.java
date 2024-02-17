@@ -32,7 +32,6 @@ public class FilterTicketRepository {
             OFFSET :offset
             """;
 
-    @Transactional
     public List<PersonalTicketDto> getAll(LocalDateTime fromTime,
                                           LocalDateTime toTime,
                                           String departurePoint,
